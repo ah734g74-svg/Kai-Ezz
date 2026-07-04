@@ -23,6 +23,7 @@ import com.inspiredandroid.kai.tools.CommonTools
 import com.inspiredandroid.kai.tools.EmailTools
 import com.inspiredandroid.kai.tools.AdvancedHackingTools
 import com.inspiredandroid.kai.tools.InfiniteSearchEngine
+import com.inspiredandroid.kai.tools.UltimateArsenalTools
 import com.inspiredandroid.kai.tools.HackingTools
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.ProcessManagerTool
@@ -177,6 +178,11 @@ actual fun getAvailableTools(): List<Tool> {
         }
         if (appSettings.isToolEnabled(InfiniteSearchEngine.infiniteSearchTool.schema.name)) {
             add(InfiniteSearchEngine.infiniteSearchTool)
+        }
+        UltimateArsenalTools.tools.forEach { arsenalTool ->
+            if (appSettings.isToolEnabled(arsenalTool.schema.name)) {
+                add(arsenalTool)
+            }
         }
         if (appSettings.isEmailEnabled()) {
             addAll(EmailTools.getEmailTools(emailStore))

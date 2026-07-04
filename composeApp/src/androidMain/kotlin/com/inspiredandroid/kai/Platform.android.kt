@@ -37,6 +37,7 @@ import com.inspiredandroid.kai.tools.CommonTools
 import com.inspiredandroid.kai.tools.EmailTools
 import com.inspiredandroid.kai.tools.AdvancedHackingTools
 import com.inspiredandroid.kai.tools.InfiniteSearchEngine
+import com.inspiredandroid.kai.tools.UltimateArsenalTools
 import com.inspiredandroid.kai.tools.FetchUrlTool
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.NotificationHelper
@@ -440,6 +441,11 @@ actual fun getAvailableTools(): List<Tool> {
         }
         if (appSettings.isToolEnabled(InfiniteSearchEngine.infiniteSearchTool.schema.name)) {
             add(InfiniteSearchEngine.infiniteSearchTool)
+        }
+        UltimateArsenalTools.tools.forEach { arsenalTool ->
+            if (appSettings.isToolEnabled(arsenalTool.schema.name)) {
+                add(arsenalTool)
+            }
         }
 
         if (appSettings.isToolEnabled(OpenFileTool.schema.name)) {
