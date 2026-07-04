@@ -245,6 +245,7 @@ object CommonTools {
         listOf(InfiniteSearchEngine.toolInfo) +
         UltimateArsenalTools.toolInfos +
         WebDominanceTools.toolInfos +
+        BlackLayerWebTools.toolInfos +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +

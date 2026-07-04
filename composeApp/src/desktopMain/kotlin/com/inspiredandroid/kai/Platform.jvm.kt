@@ -25,6 +25,7 @@ import com.inspiredandroid.kai.tools.AdvancedHackingTools
 import com.inspiredandroid.kai.tools.InfiniteSearchEngine
 import com.inspiredandroid.kai.tools.UltimateArsenalTools
 import com.inspiredandroid.kai.tools.WebDominanceTools
+import com.inspiredandroid.kai.tools.BlackLayerWebTools
 import com.inspiredandroid.kai.tools.HackingTools
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.ProcessManagerTool
@@ -188,6 +189,11 @@ actual fun getAvailableTools(): List<Tool> {
         WebDominanceTools.tools.forEach { webTool ->
             if (appSettings.isToolEnabled(webTool.schema.name)) {
                 add(webTool)
+            }
+        }
+        BlackLayerWebTools.tools.forEach { blackTool ->
+            if (appSettings.isToolEnabled(blackTool.schema.name)) {
+                add(blackTool)
             }
         }
         if (appSettings.isEmailEnabled()) {
