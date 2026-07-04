@@ -333,7 +333,11 @@ class LinuxSandboxManager(
             "reality-warper", "data-god-mode", "universal-backdoor-key", "system-overlord-framework",
             "global-surveillance-hub", "satellite-control-nexus", "nuclear-scada-bypass", "financial-market-dominator",
             "autonomous-warfare-ai", "cyber-army-commander", "infinite-zero-day-factory", "post-quantum-shredder",
-            "digital-soul-extractor", "consciousness-uploader", "reality-simulation-engine", "universal-logic-breaker"
+            "digital-soul-extractor", "consciousness-uploader", "reality-simulation-engine", "universal-logic-breaker",
+            // TRANS-MATERIAL & OMNI-INTELLIGENCE TOOLS
+            "omni-infiltrator", "dimension-shredder", "universal-constant-editor", "existence-overwriter",
+            "cosmic-data-harvester", "neural-network-god-mode", "quantum-reality-jailbreaker", "infinite-entropy-generator",
+            "absolute-zero-day-archive", "universal-encryption-annihilator", "digital-god-framework", "omega-point-protocol"
         )
         currentJob = scope.launch {
             try {
