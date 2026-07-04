@@ -323,7 +323,12 @@ class LinuxSandboxManager(
             "deep-exploit", "auto-pentest-gpt", "autonomous-cyber-defense-bypass",
             "zero-day-generator", "polymorphic-payload-engine", "stealth-rootkit-factory",
             "satellite-hacking-kit", "scada-exploitation-framework", "plc-injector",
-            "dark-web-crawler", "blockchain-vulnerability-scanner", "smart-contract-auditor"
+            "dark-web-crawler", "blockchain-vulnerability-scanner", "smart-contract-auditor",
+            // INFINITE HACKING REPOSITORIES & UNIVERSAL ACCESS
+            "blackarch-mirrorlist", "archstrike-mirrorlist", "kali-archive-keyring",
+            "universal-exploit-loader", "global-threat-intel-feed", "automated-malware-factory",
+            "kernel-exploit-kit", "firmware-analysis-plus", "hardware-hacking-suite",
+            "quantum-decryption-core", "neural-network-infiltrator", "infinite-resource-scaler"
         )
         currentJob = scope.launch {
             try {
