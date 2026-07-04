@@ -242,6 +242,7 @@ object CommonTools {
         HackingTools.hackingToolDefinitions +
         AdvancedHackingTools.advancedHackingToolDefinitions +
         HyperAdaptiveSystem.toolInfos +
+        listOf(InfiniteSearchEngine.toolInfo) +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +

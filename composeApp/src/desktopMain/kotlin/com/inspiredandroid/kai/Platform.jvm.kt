@@ -22,6 +22,7 @@ import com.inspiredandroid.kai.network.tools.ToolInfo
 import com.inspiredandroid.kai.tools.CommonTools
 import com.inspiredandroid.kai.tools.EmailTools
 import com.inspiredandroid.kai.tools.AdvancedHackingTools
+import com.inspiredandroid.kai.tools.InfiniteSearchEngine
 import com.inspiredandroid.kai.tools.HackingTools
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.ProcessManagerTool
@@ -173,6 +174,9 @@ actual fun getAvailableTools(): List<Tool> {
             if (appSettings.isToolEnabled(advHackTool.schema.name)) {
                 add(advHackTool)
             }
+        }
+        if (appSettings.isToolEnabled(InfiniteSearchEngine.infiniteSearchTool.schema.name)) {
+            add(InfiniteSearchEngine.infiniteSearchTool)
         }
         if (appSettings.isEmailEnabled()) {
             addAll(EmailTools.getEmailTools(emailStore))

@@ -149,6 +149,8 @@
     <string name="tool_bloodhound_recon_description">Maps relationships in Active Directory to identify attack paths</string>
     <string name="tool_evil_winrm_shell_name">Evil-WinRM Shell</string>
     <string name="tool_evil_winrm_shell_description">Ultimate WinRM shell for hacking/pentesting Windows machines</string>
+    <string name="tool_infinite_parallel_search_name">Infinite Speed Search</string>
+    <string name="tool_infinite_parallel_search_description">Massive parallel search engine for unlimited speed and depth</string>
     <string name="tool_schedule_task_name">Schedule Task</string>
     <string name="tool_schedule_task_description">Schedule a task for future execution</string>
     <string name="tool_cancel_task_name">Cancel Task</string>
