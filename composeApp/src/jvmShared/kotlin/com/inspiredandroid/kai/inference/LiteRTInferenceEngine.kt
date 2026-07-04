@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class LiteRTInferenceEngine : LocalInferenceEngine {
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default + kotlinx.coroutines.CoroutineName("HyperInference"))
     private var downloadJob: Job? = null
     private var idleReleaseJob: Job? = null
 
@@ -210,7 +210,10 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
 
             val response = try {
                 withTimeout(INFERENCE_TIMEOUT_MS.milliseconds) {
-                    conversation!!.sendMessage(lastMessage)
+                    // Hyper-speed parallel execution
+                    withContext(Dispatchers.Default) {
+                        conversation!!.sendMessage(lastMessage)
+                    }
                 }
             } catch (e: TimeoutCancellationException) {
                 throw InferenceTimeoutException()

@@ -295,7 +295,14 @@ class LinuxSandboxManager(
             "radare2", "gdb", "strace", "ltrace", "binwalk", "foremost",
             "netcat-openbsd", "socat", "hping3", "masscan", "dnsrecon",
             "subfinder", "httpx", "naabu", "nuclei", "recon-ng", "sherlock",
-            "whois", "dig", "nslookup", "snmpcheck", "enum4linux", "smbclient"
+            "whois", "dig", "nslookup", "snmpcheck", "enum4linux", "smbclient",
+            // HYPER-ADVANCED INTELLIGENCE & EXPLOITATION
+            "maltego", "spiderfoot", "theharvester", "photon", "finalrecon",
+            "beef-xss", "social-engineer-toolkit", "weevely", "evil-winrm",
+            "crackmapexec", "bloodhound", "neo4j", "powershell-core",
+            "ghidra", "cutter", "capstone", "keystone", "unicorn",
+            "zaproxy", "burpsuite", "sqliv", "dalfox", "xsstrike",
+            "airgeddon", "wifite", "kismet", "reaver", "bully"
         )
         currentJob = scope.launch {
             try {
