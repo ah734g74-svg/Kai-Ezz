@@ -341,7 +341,11 @@ class LinuxSandboxManager(
             // META-CONSCIOUSNESS & UNIVERSAL OMNI-PRESENCE TOOLS
             "universal-mind-hacker", "cosmic-system-administrator", "existence-debugger", "infinite-probability-manipulator",
             "meta-data-architect", "universal-firewall-annihilator", "digital-destiny-writer", "omni-source-protocol",
-            "beyond-quantum-decryptor", "universal-vulnerability-oracle", "god-tier-exploit-engine", "infinite-execution-nexus"
+            "beyond-quantum-decryptor", "universal-vulnerability-oracle", "god-tier-exploit-engine", "infinite-execution-nexus",
+            // NEURAL ADAPTATION & SELF-EVOLVING UNIVERSAL TOOLS
+            "neural-adaptation-engine", "self-learning-hacker-core", "recursive-exploit-generator", "adaptive-payload-morpher",
+            "universal-logic-adapter", "infinite-knowledge-absorber", "galactic-threat-intelligence", "autonomous-evolution-framework",
+            "every-hacking-tool-in-existence", "universal-library-injector", "all-known-exploits-database", "infinite-tool-scaler"
         )
         currentJob = scope.launch {
             try {
