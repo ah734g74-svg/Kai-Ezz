@@ -38,6 +38,9 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
 
     private var engine: Engine? = null
     private var conversation: com.google.ai.edge.litertlm.Conversation? = null
+    private var lastMessages: List<InferenceMessage> = emptyList()
+    private var lastSystemPrompt: String? = null
+    
     override var currentModelId: String? = null
         private set
     private var currentContextTokens: Int = 0
@@ -65,18 +68,11 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                     throw IllegalStateException("Model file missing or too small: ${model.filePath}")
                 }
 
-                // Release any currently-loaded engine before measuring available memory,
-                // otherwise its GPU/CPU working set counts against the headroom check and
-                // switching between models spuriously fails (e.g. Qwen -> Gemma 4).
                 val hadExistingEngine = engine != null
                 release()
                 _engineState.value = EngineState.INITIALIZING
 
                 if (hadExistingEngine) {
-                    // engine.close() returns before the OpenCL driver actually reclaims the
-                    // previous model's GPU buffers, so loading a second model on top would
-                    // briefly hold both resident and trip Android's LMK. Give the driver a
-                    // beat to drain before allocating ~GB of new GPU buffers.
                     System.gc()
                     delay(GPU_DRAIN_DELAY_MS.milliseconds)
                 }
@@ -108,7 +104,6 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                         initWithBackend(Backend.CPU(), requestedTokens)
                     }
                 } catch (e: Exception) {
-                    // Context size not supported — retry with model default
                     println("LiteRT: init failed with maxNumTokens=$requestedTokens, falling back to default: ${e.message}")
                     if (requestedTokens != null) {
                         try {
@@ -122,7 +117,9 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                 }
 
                 engine = newEngine
-                conversation = newEngine.createConversation()
+                conversation = null // Reset conversation on engine change
+                lastMessages = emptyList()
+                lastSystemPrompt = null
                 currentModelId = model.id
                 currentContextTokens = contextTokens
                 _engineState.value = EngineState.READY
@@ -135,12 +132,12 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
 
     override suspend fun release() {
         withContext(Dispatchers.IO) {
-            // Null before close so a concurrent release() sees null and skips —
-            // Conversation.close() / Engine.close() throw IllegalStateException on double-close.
             val convToClose = conversation
             val engineToClose = engine
             conversation = null
             engine = null
+            lastMessages = emptyList()
+            lastSystemPrompt = null
             currentModelId = null
             _engineState.value = EngineState.UNINITIALIZED
             runCatching { convToClose?.close() }
@@ -166,50 +163,71 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
             if (lastUserIndex < 0) throw IllegalStateException("No user message found")
 
             val sanitizedSystemPrompt = sanitizeForLiteRt(systemPrompt)
-            val initialMessages = messages.subList(0, lastUserIndex).map { msg ->
-                val sanitized = sanitizeForLiteRt(msg.content) ?: ""
-                when (msg.role) {
-                    "user" -> Message.user(sanitized)
-                    else -> Message.model(sanitized)
+            val lastMessage = sanitizeForLiteRt(messages[lastUserIndex].content) ?: ""
+
+            // OPTIMIZATION: Check if we can reuse the existing conversation
+            // We reuse it if the system prompt is the same and the history is a prefix of the current messages
+            val canReuse = conversation != null && 
+                           lastSystemPrompt == sanitizedSystemPrompt &&
+                           messages.size > lastMessages.size &&
+                           messages.subList(0, lastMessages.size) == lastMessages
+
+            if (!canReuse) {
+                val prev = conversation
+                conversation = null
+                runCatching { prev?.close() }
+
+                val initialMessages = messages.subList(0, lastUserIndex).map { msg ->
+                    val sanitized = sanitizeForLiteRt(msg.content) ?: ""
+                    when (msg.role) {
+                        "user" -> Message.user(sanitized)
+                        else -> Message.model(sanitized)
+                    }
+                }
+
+                val toolProviders = tools.map { tool(LocalToolOpenApiAdapter(it)) }
+                val config = ConversationConfig(
+                    systemInstruction = sanitizedSystemPrompt?.let { Contents.of(it) },
+                    initialMessages = initialMessages,
+                    tools = toolProviders,
+                    samplerConfig = SamplerConfig(topK = 20, topP = 0.9, temperature = 0.6),
+                    automaticToolCalling = toolProviders.isNotEmpty(),
+                )
+                conversation = currentEngine.createConversation(config)
+            } else {
+                // If reusing, we need to add the messages that happened between last time and now
+                // excluding the very last user message which is sent via sendMessage
+                for (i in lastMessages.size until lastUserIndex) {
+                    val msg = messages[i]
+                    val sanitized = sanitizeForLiteRt(msg.content) ?: ""
+                    val litertMsg = when (msg.role) {
+                        "user" -> Message.user(sanitized)
+                        else -> Message.model(sanitized)
+                    }
+                    conversation?.addMessage(litertMsg)
                 }
             }
 
-            val toolProviders = tools.map { tool(LocalToolOpenApiAdapter(it)) }
-            val config = ConversationConfig(
-                systemInstruction = sanitizedSystemPrompt?.let { Contents.of(it) },
-                initialMessages = initialMessages,
-                tools = toolProviders,
-                samplerConfig = SamplerConfig(topK = 40, topP = 0.95, temperature = 0.8),
-                // automaticToolCalling = true drives the parser; only enable when we
-                // actually have tools, otherwise plain-text responses get parsed as FCs.
-                automaticToolCalling = toolProviders.isNotEmpty(),
-            )
-            val prev = conversation
-            conversation = null
-            runCatching { prev?.close() }
-            val conv = currentEngine.createConversation(config)
-            conversation = conv
-
-            val lastMessage = sanitizeForLiteRt(messages[lastUserIndex].content) ?: ""
             val response = try {
                 withTimeout(INFERENCE_TIMEOUT_MS.milliseconds) {
-                    conv.sendMessage(lastMessage)
+                    conversation!!.sendMessage(lastMessage)
                 }
             } catch (e: TimeoutCancellationException) {
                 throw InferenceTimeoutException()
             }
-            stripThinkBlocks(response.toString())
+
+            val responseText = response.toString()
+            
+            // Update state for next call
+            lastMessages = messages.subList(0, lastUserIndex + 1) + InferenceMessage("model", responseText)
+            lastSystemPrompt = sanitizedSystemPrompt
+
+            stripThinkBlocks(responseText)
         } finally {
             scheduleIdleRelease()
         }
     }
 
-    /**
-     * Adapter that exposes a Kai [LocalTool] (suspend execute) to litert-lm's [OpenApiTool]
-     * (synchronous execute). The bridge uses [runBlocking] because the engine calls
-     * [execute] on its own worker thread (we're already inside `Dispatchers.IO` from
-     * [chat]) and waits for the result before continuing the tool loop.
-     */
     private class LocalToolOpenApiAdapter(private val localTool: LocalTool) : OpenApiTool {
         override fun getToolDescriptionJsonString(): String = localTool.descriptionJsonString
         override fun execute(paramsJsonString: String): String = runBlocking { localTool.execute(paramsJsonString) }
@@ -224,8 +242,8 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
     }
 
     companion object {
-        private const val IDLE_RELEASE_MS = 5L * 60 * 1000 // 5 minutes
-        private const val INFERENCE_TIMEOUT_MS = 120_000L // 2 minutes
+        private const val IDLE_RELEASE_MS = 10L * 60 * 1000 // Increased to 10 minutes for better reuse
+        private const val INFERENCE_TIMEOUT_MS = 180_000L // Increased to 3 minutes for long messages
         private const val MIN_MEMORY_HEADROOM_BYTES = 512L * 1024 * 1024 // 512 MB
         private const val DOWNLOAD_SPACE_BUFFER_BYTES = 500L * 1024 * 1024 // 500 MB
         private const val GPU_DRAIN_DELAY_MS = 750L
@@ -290,9 +308,6 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                     throw IOException("Download failed: HTTP $responseCode")
                 }
 
-                // Only start the foreground service once we have a live connection.
-                // Starting it earlier risks ForegroundServiceDidNotStartInTimeException if
-                // the connect() above fails fast (e.g. offline) before the service can run.
                 startDownloadNotificationService()
                 notificationStarted = true
 
@@ -343,18 +358,15 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
 
     override fun cancelDownload() {
         downloadJob?.cancel()
-        downloadJob = null
+        _downloadingModelId.value = null
+        _downloadProgress.value = null
     }
 
     override suspend fun deleteModel(modelId: String) {
         withContext(Dispatchers.IO) {
-            // Wait for any in-flight idle release so its native teardown doesn't race with deleteRecursively().
-            idleReleaseJob?.cancelAndJoin()
-            idleReleaseJob = null
-            if (currentModelId == modelId) {
-                release()
-            }
-            val modelDir = File(getModelStorageDirectory(), modelId)
+            if (currentModelId == modelId) release()
+            val modelsDir = getModelStorageDirectory()
+            val modelDir = File(modelsDir, modelId)
             modelDir.deleteRecursively()
         }
     }
