@@ -172,41 +172,27 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                            messages.size > lastMessages.size &&
                            messages.subList(0, lastMessages.size) == lastMessages
 
-            if (!canReuse) {
-                val prev = conversation
-                conversation = null
-                runCatching { prev?.close() }
+            val prev = conversation
+            conversation = null
+            runCatching { prev?.close() }
 
-                val initialMessages = messages.subList(0, lastUserIndex).map { msg ->
-                    val sanitized = sanitizeForLiteRt(msg.content) ?: ""
-                    when (msg.role) {
-                        "user" -> Message.user(sanitized)
-                        else -> Message.model(sanitized)
-                    }
-                }
-
-                val toolProviders = tools.map { tool(LocalToolOpenApiAdapter(it)) }
-                val config = ConversationConfig(
-                    systemInstruction = sanitizedSystemPrompt?.let { Contents.of(it) },
-                    initialMessages = initialMessages,
-                    tools = toolProviders,
-                    samplerConfig = SamplerConfig(topK = 1, topP = 1.0, temperature = 0.0), // Instant, deterministic execution
-                    automaticToolCalling = toolProviders.isNotEmpty(),
-                )
-                conversation = currentEngine.createConversation(config)
-            } else {
-                // If reusing, we need to add the messages that happened between last time and now
-                // excluding the very last user message which is sent via sendMessage
-                for (i in lastMessages.size until lastUserIndex) {
-                    val msg = messages[i]
-                    val sanitized = sanitizeForLiteRt(msg.content) ?: ""
-                    val litertMsg = when (msg.role) {
-                        "user" -> Message.user(sanitized)
-                        else -> Message.model(sanitized)
-                    }
-                    conversation?.addMessage(litertMsg)
+            val initialMessages = messages.subList(0, lastUserIndex).map { msg ->
+                val sanitized = sanitizeForLiteRt(msg.content) ?: ""
+                when (msg.role) {
+                    "user" -> Message.user(sanitized)
+                    else -> Message.model(sanitized)
                 }
             }
+
+            val toolProviders = tools.map { tool(LocalToolOpenApiAdapter(it)) }
+            val config = ConversationConfig(
+                systemInstruction = sanitizedSystemPrompt?.let { Contents.of(it) },
+                initialMessages = initialMessages,
+                tools = toolProviders,
+                samplerConfig = SamplerConfig(topK = 1, topP = 1.0, temperature = 0.0), // Instant, deterministic execution
+                automaticToolCalling = toolProviders.isNotEmpty(),
+            )
+            conversation = currentEngine.createConversation(config)
 
             val response = try {
                 withTimeout(INFERENCE_TIMEOUT_MS.milliseconds) {
