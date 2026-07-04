@@ -244,6 +244,7 @@ object CommonTools {
         HyperAdaptiveSystem.toolInfos +
         listOf(InfiniteSearchEngine.toolInfo) +
         UltimateArsenalTools.toolInfos +
+        WebDominanceTools.toolInfos +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +
