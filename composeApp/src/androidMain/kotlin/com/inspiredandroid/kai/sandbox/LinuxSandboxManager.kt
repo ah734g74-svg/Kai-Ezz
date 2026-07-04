@@ -316,7 +316,14 @@ class LinuxSandboxManager(
             "reaver-wps-fork-t6x", "pixiewps", "mdk4", "fluxion",
             "chntpw", "samdump2", "ophcrack", "hashid", "hash-buster",
             "steghide", "stegsolve", "zsteg", "outguess", "jphs",
-            "apktool", "dex2jar", "jd-gui", "frida-tools", "objection"
+            "apktool", "dex2jar", "jd-gui", "frida-tools", "objection",
+            // QUANTUM & SELF-EVOLVING HACKING TOOLS
+            "qiskit", "cirq", "pennylane", "quantum-computing-tools",
+            "autohack", "self-healing-exploits", "ai-fuzzer", "neural-network-hacker",
+            "deep-exploit", "auto-pentest-gpt", "autonomous-cyber-defense-bypass",
+            "zero-day-generator", "polymorphic-payload-engine", "stealth-rootkit-factory",
+            "satellite-hacking-kit", "scada-exploitation-framework", "plc-injector",
+            "dark-web-crawler", "blockchain-vulnerability-scanner", "smart-contract-auditor"
         )
         currentJob = scope.launch {
             try {

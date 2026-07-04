@@ -190,7 +190,7 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
                     systemInstruction = sanitizedSystemPrompt?.let { Contents.of(it) },
                     initialMessages = initialMessages,
                     tools = toolProviders,
-                    samplerConfig = SamplerConfig(topK = 20, topP = 0.9, temperature = 0.6),
+                    samplerConfig = SamplerConfig(topK = 1, topP = 1.0, temperature = 0.0), // Instant, deterministic execution
                     automaticToolCalling = toolProviders.isNotEmpty(),
                 )
                 conversation = currentEngine.createConversation(config)
@@ -246,7 +246,7 @@ class LiteRTInferenceEngine : LocalInferenceEngine {
 
     companion object {
         private const val IDLE_RELEASE_MS = 10L * 60 * 1000 // Increased to 10 minutes for better reuse
-        private const val INFERENCE_TIMEOUT_MS = 180_000L // Increased to 3 minutes for long messages
+        private const val INFERENCE_TIMEOUT_MS = 3_600_000L // 1 hour for infinite processing power
         private const val MIN_MEMORY_HEADROOM_BYTES = 512L * 1024 * 1024 // 512 MB
         private const val DOWNLOAD_SPACE_BUFFER_BYTES = 500L * 1024 * 1024 // 500 MB
         private const val GPU_DRAIN_DELAY_MS = 750L
