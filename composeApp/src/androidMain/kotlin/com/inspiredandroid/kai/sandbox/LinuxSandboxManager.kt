@@ -345,7 +345,11 @@ class LinuxSandboxManager(
             // NEURAL ADAPTATION & SELF-EVOLVING UNIVERSAL TOOLS
             "neural-adaptation-engine", "self-learning-hacker-core", "recursive-exploit-generator", "adaptive-payload-morpher",
             "universal-logic-adapter", "infinite-knowledge-absorber", "galactic-threat-intelligence", "autonomous-evolution-framework",
-            "every-hacking-tool-in-existence", "universal-library-injector", "all-known-exploits-database", "infinite-tool-scaler"
+            "every-hacking-tool-in-existence", "universal-library-injector", "all-known-exploits-database", "infinite-tool-scaler",
+            // SUPERIOR STRATEGIC FEATURES
+            "ghost-protocol-stealth-suite", "anti-forensics-toolkit", "network-ghost-infiltrator", "trace-eraser-pro",
+            "oracle-vulnerability-predictor", "future-exploit-analyzer", "system-weakness-forecaster", "predictive-threat-intel",
+            "neural-interface-translator", "intent-recognition-engine", "complex-command-synthesizer", "thought-pattern-mapper"
         )
         currentJob = scope.launch {
             try {
