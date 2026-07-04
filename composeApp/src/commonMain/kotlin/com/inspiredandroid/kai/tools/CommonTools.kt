@@ -239,6 +239,7 @@ object CommonTools {
         openUrlToolInfo,
         FetchUrlTool.toolInfo,
     ) +
+        HackingTools.hackingToolDefinitions +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +

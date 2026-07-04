@@ -47,6 +47,7 @@ import com.inspiredandroid.kai.tools.SchedulingTools
 import com.inspiredandroid.kai.tools.ShellCommandTool
 import com.inspiredandroid.kai.tools.SmsTools
 import com.inspiredandroid.kai.tools.SshConfigureHostTool
+import com.inspiredandroid.kai.tools.HackingTools
 import com.inspiredandroid.kai.tools.WebSearchTool
 import com.russhwolf.settings.BuildConfig
 import com.russhwolf.settings.Settings
@@ -423,6 +424,12 @@ actual fun getAvailableTools(): List<Tool> {
 
         if (appSettings.isToolEnabled(FetchUrlTool.schema.name)) {
             add(FetchUrlTool)
+        }
+        // Hacking / Penetration Testing tools
+        HackingTools.hackingTools.forEach { hackTool ->
+            if (appSettings.isToolEnabled(hackTool.schema.name)) {
+                add(hackTool)
+            }
         }
 
         if (appSettings.isToolEnabled(OpenFileTool.schema.name)) {
