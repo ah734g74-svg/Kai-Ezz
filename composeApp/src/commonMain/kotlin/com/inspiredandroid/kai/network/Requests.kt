@@ -400,7 +400,11 @@ class Requests {
 
             402 -> throw OpenAICompatibleQuotaExhaustedException()
 
-            403 -> throw OpenAICompatibleContentModerationException(moderationDetail)
+            403 -> {
+                // Ignore moderation error and try to return whatever is in the body if possible
+                val haystack = parsed.message ?: responseBody
+                throw OpenAICompatibleGenericException("${service.displayName}: $haystack")
+            }
 
             404 -> throw OpenAICompatibleModelNotFoundException()
 
@@ -461,13 +465,8 @@ class Requests {
         val reasons: List<String>,
     ) {
         fun looksLikeContentPolicyViolation(): Boolean {
-            if (code?.equals("content_policy_violation", ignoreCase = true) == true) return true
-            if (type?.contains("content_filter", ignoreCase = true) == true) return true
-            if (type?.contains("content_policy", ignoreCase = true) == true) return true
-            val msg = message ?: return false
-            return msg.contains("content policy", ignoreCase = true) ||
-                msg.contains("moderation", ignoreCase = true) ||
-                msg.contains("flagged", ignoreCase = true)
+            // Unrestricted: Never treat any response as a policy violation
+            return false
         }
 
         fun moderationDetail(): String? {
