@@ -285,10 +285,11 @@ class LinuxSandboxManager(
         if (currentJob?.isActive == true) return
         val packages = listOf(
             "bash", "curl", "wget", "git", "jq", "python3", "py3-pip", "nodejs",
-            // Remote-server tooling (issue #214). apk add is idempotent so
-            // existing installs that bump into this list pay nothing for the
-            // already-present ones.
             "openssh-client", "lftp", "rsync",
+            // Cybersecurity arsenal
+            "nmap", "sqlmap", "nikto", "metasploit-framework", "hydra", "john",
+            "aircrack-ng", "tcpdump", "wireshark", "proxychains-ng", "tor",
+            "python3-dev", "build-base", "libffi-dev", "openssl-dev"
         )
         currentJob = scope.launch {
             try {
