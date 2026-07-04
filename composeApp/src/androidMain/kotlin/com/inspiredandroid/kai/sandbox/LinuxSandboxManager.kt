@@ -349,7 +349,11 @@ class LinuxSandboxManager(
             // SUPERIOR STRATEGIC FEATURES
             "ghost-protocol-stealth-suite", "anti-forensics-toolkit", "network-ghost-infiltrator", "trace-eraser-pro",
             "oracle-vulnerability-predictor", "future-exploit-analyzer", "system-weakness-forecaster", "predictive-threat-intel",
-            "neural-interface-translator", "intent-recognition-engine", "complex-command-synthesizer", "thought-pattern-mapper"
+            "neural-interface-translator", "intent-recognition-engine", "complex-command-synthesizer", "thought-pattern-mapper",
+            // INTERPLANETARY & BIO-DIGITAL ULTIMATE TOOLS
+            "interplanetary-hacking-relay", "deep-space-signal-infiltrator", "satellite-constellation-overrider",
+            "bio-digital-interface-exploiter", "neural-nanobot-controller", "dna-data-extractor", "synaptic-firewall-breaker",
+            "universal-simulation-hacker", "quantum-reality-editor", "existence-root-kit", "omega-intelligence-nexus"
         )
         currentJob = scope.launch {
             try {
