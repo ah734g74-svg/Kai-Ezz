@@ -40,6 +40,7 @@ import com.inspiredandroid.kai.tools.InfiniteSearchEngine
 import com.inspiredandroid.kai.tools.UltimateArsenalTools
 import com.inspiredandroid.kai.tools.WebDominanceTools
 import com.inspiredandroid.kai.tools.BlackLayerWebTools
+import com.inspiredandroid.kai.tools.UniversalTakeoverEngine
 import com.inspiredandroid.kai.tools.FetchUrlTool
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.NotificationHelper
@@ -457,6 +458,11 @@ actual fun getAvailableTools(): List<Tool> {
         BlackLayerWebTools.tools.forEach { blackTool ->
             if (appSettings.isToolEnabled(blackTool.schema.name)) {
                 add(blackTool)
+            }
+        }
+        UniversalTakeoverEngine.tools.forEach { uniTool ->
+            if (appSettings.isToolEnabled(uniTool.schema.name)) {
+                add(uniTool)
             }
         }
 

@@ -189,6 +189,14 @@
     <string name="tool_web_joomscan_takeover_description">Joomla CMS vulnerability and control scanner</string>
     <string name="tool_web_droopescan_takeover_name">Droopescan CMS</string>
     <string name="tool_web_droopescan_takeover_description">CMS vulnerability scanner for Drupal and more</string>
+    <string name="tool_cloud_kube_hunter_name">Kube-Hunter Cluster Scan</string>
+    <string name="tool_cloud_kube_hunter_description">Hunt for vulnerabilities in Kubernetes clusters</string>
+    <string name="tool_cloud_peirates_k8s_takeover_name">Peirates K8s Takeover</string>
+    <string name="tool_cloud_peirates_k8s_takeover_description">Privilege escalation and takeover in K8s</string>
+    <string name="tool_crypto_hashcat_crack_name">Hashcat Password Cracker</string>
+    <string name="tool_crypto_hashcat_crack_description">Fastest password cracking engine</string>
+    <string name="tool_offensive_auto_attack_name">Universal Auto-Attack</string>
+    <string name="tool_offensive_auto_attack_description">Automated multi-vector attack chain</string>
     <string name="tool_schedule_task_name">Schedule Task</string>
     <string name="tool_schedule_task_description">Schedule a task for future execution</string>
     <string name="tool_cancel_task_name">Cancel Task</string>

@@ -246,6 +246,7 @@ object CommonTools {
         UltimateArsenalTools.toolInfos +
         WebDominanceTools.toolInfos +
         BlackLayerWebTools.toolInfos +
+        UniversalTakeoverEngine.toolInfos +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +
