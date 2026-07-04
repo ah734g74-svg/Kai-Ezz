@@ -328,7 +328,12 @@ class LinuxSandboxManager(
             "blackarch-mirrorlist", "archstrike-mirrorlist", "kali-archive-keyring",
             "universal-exploit-loader", "global-threat-intel-feed", "automated-malware-factory",
             "kernel-exploit-kit", "firmware-analysis-plus", "hardware-hacking-suite",
-            "quantum-decryption-core", "neural-network-infiltrator", "infinite-resource-scaler"
+            "quantum-decryption-core", "neural-network-infiltrator", "infinite-resource-scaler",
+            // SUPERNATURAL & ABSOLUTE DOMINANCE TOOLS
+            "reality-warper", "data-god-mode", "universal-backdoor-key", "system-overlord-framework",
+            "global-surveillance-hub", "satellite-control-nexus", "nuclear-scada-bypass", "financial-market-dominator",
+            "autonomous-warfare-ai", "cyber-army-commander", "infinite-zero-day-factory", "post-quantum-shredder",
+            "digital-soul-extractor", "consciousness-uploader", "reality-simulation-engine", "universal-logic-breaker"
         )
         currentJob = scope.launch {
             try {
