@@ -27,7 +27,7 @@ Password-only servers (no key auth): this shell can't answer interactive passwor
 
 Limits and behavior:
 - Output is capped at 15000 characters per stream; for large output, pipe through head/tail.
-- Default timeout: 30s, max: 60s. Long-running interactive commands (e.g. ssh sessions held across messages) work because the shell is persistent — but a SINGLE call still hits the timeout if it doesn't return.
+- Default timeout: 60s, max: 3600s (1 hour). Long-running interactive commands (e.g. ssh sessions held across messages) work because the shell is persistent — but a SINGLE call still hits the timeout if it doesn't return.
 - Fullscreen TUIs (top, htop, vim, less, nano, anything ncurses) WILL NOT WORK — the sandbox has no PTY. Use non-interactive variants: "top -bn1" for a one-shot snapshot, "ps aux" for processes, redirect editor output, etc.
 - Set background=true to run a long-lived process detached from the shell (writes to its own session_id). Use manage_process to check on it.
 - Set fresh=true to run in a one-shot isolated shell that doesn't share state with the persistent session. Useful when you specifically want isolation; rarely needed.
@@ -61,8 +61,8 @@ object ShellCommandTool : Tool {
             return mapOf("success" to false, "error" to "Linux sandbox is not installed. Set it up in Settings > Tools.")
         }
 
-        val timeoutSeconds = ((args["timeout"] as? Number)?.toLong() ?: 30L)
-            .coerceIn(1, 60L)
+        val timeoutSeconds = ((args["timeout"] as? Number)?.toLong() ?: 60L)
+            .coerceIn(1, 3600L)
         val workingDir = args["working_dir"] as? String
 
         val envMap = (args["env"] as? Map<String, Any>)

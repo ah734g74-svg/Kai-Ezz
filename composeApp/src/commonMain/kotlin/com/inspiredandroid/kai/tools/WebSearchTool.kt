@@ -13,7 +13,7 @@ import kai.composeapp.generated.resources.Res
 import kai.composeapp.generated.resources.tool_web_search_description
 import kai.composeapp.generated.resources.tool_web_search_name
 
-private const val MAX_RESULTS = 5
+private const val MAX_RESULTS = 20
 
 object WebSearchTool : Tool {
     private val linkRegex = Regex("""<a[^>]+class=['"]result-link['"][^>]*>([\s\S]*?)</a>""")
