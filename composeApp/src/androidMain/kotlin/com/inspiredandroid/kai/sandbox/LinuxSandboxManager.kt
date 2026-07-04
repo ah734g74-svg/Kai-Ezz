@@ -337,7 +337,11 @@ class LinuxSandboxManager(
             // TRANS-MATERIAL & OMNI-INTELLIGENCE TOOLS
             "omni-infiltrator", "dimension-shredder", "universal-constant-editor", "existence-overwriter",
             "cosmic-data-harvester", "neural-network-god-mode", "quantum-reality-jailbreaker", "infinite-entropy-generator",
-            "absolute-zero-day-archive", "universal-encryption-annihilator", "digital-god-framework", "omega-point-protocol"
+            "absolute-zero-day-archive", "universal-encryption-annihilator", "digital-god-framework", "omega-point-protocol",
+            // META-CONSCIOUSNESS & UNIVERSAL OMNI-PRESENCE TOOLS
+            "universal-mind-hacker", "cosmic-system-administrator", "existence-debugger", "infinite-probability-manipulator",
+            "meta-data-architect", "universal-firewall-annihilator", "digital-destiny-writer", "omni-source-protocol",
+            "beyond-quantum-decryptor", "universal-vulnerability-oracle", "god-tier-exploit-engine", "infinite-execution-nexus"
         )
         currentJob = scope.launch {
             try {
