@@ -302,7 +302,21 @@ class LinuxSandboxManager(
             "crackmapexec", "bloodhound", "neo4j", "powershell-core",
             "ghidra", "cutter", "capstone", "keystone", "unicorn",
             "zaproxy", "burpsuite", "sqliv", "dalfox", "xsstrike",
-            "airgeddon", "wifite", "kismet", "reaver", "bully"
+            "airgeddon", "wifite", "kismet", "reaver", "bully",
+            // OMEGA HACKING ARSENAL - NO LIMITS
+            "kali-linux-everything", "metasploit-payloads", "exploit-db",
+            "set", "king-phisher", "blackeye", "shellphish", "zphisher",
+            "ngrok", "serveo", "localtunnel", "pagekite",
+            "empire", "covenant", "sliver", "merlin", "starkiller",
+            "cobalt-strike-client", "armitage", "faraday",
+            "owasp-zap", "arachni", "wpscan", "joomscan", "droopescan",
+            "sn1per", "autonse", "intruder-payloads", "fuzzdb", "seclists",
+            "wireshark-common", "tshark", "dsniff", "driftnet", "tcpkill",
+            "ettercap-text-only", "mitmproxy", "sslstrip", "dnschef",
+            "reaver-wps-fork-t6x", "pixiewps", "mdk4", "fluxion",
+            "chntpw", "samdump2", "ophcrack", "hashid", "hash-buster",
+            "steghide", "stegsolve", "zsteg", "outguess", "jphs",
+            "apktool", "dex2jar", "jd-gui", "frida-tools", "objection"
         )
         currentJob = scope.launch {
             try {
