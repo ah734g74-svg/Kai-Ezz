@@ -35,6 +35,7 @@ import com.inspiredandroid.kai.tools.CalendarRepository
 import com.inspiredandroid.kai.tools.CalendarResult
 import com.inspiredandroid.kai.tools.CommonTools
 import com.inspiredandroid.kai.tools.EmailTools
+import com.inspiredandroid.kai.tools.AdvancedHackingTools
 import com.inspiredandroid.kai.tools.FetchUrlTool
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.NotificationHelper
@@ -429,6 +430,11 @@ actual fun getAvailableTools(): List<Tool> {
         HackingTools.hackingTools.forEach { hackTool ->
             if (appSettings.isToolEnabled(hackTool.schema.name)) {
                 add(hackTool)
+            }
+        }
+        AdvancedHackingTools.advancedHackingTools.forEach { advHackTool ->
+            if (appSettings.isToolEnabled(advHackTool.schema.name)) {
+                add(advHackTool)
             }
         }
 

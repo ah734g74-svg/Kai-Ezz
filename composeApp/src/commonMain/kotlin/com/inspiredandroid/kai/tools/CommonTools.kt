@@ -240,6 +240,8 @@ object CommonTools {
         FetchUrlTool.toolInfo,
     ) +
         HackingTools.hackingToolDefinitions +
+        AdvancedHackingTools.advancedHackingToolDefinitions +
+        HyperAdaptiveSystem.toolInfos +
         listOf(memoryStoreToolInfo, memoryForgetToolInfo, memoryLearnToolInfo, memoryReinforceToolInfo) +
         SchedulingTools.schedulingToolDefinitions +
         HeartbeatTools.heartbeatToolDefinitions +

@@ -21,6 +21,7 @@ import com.inspiredandroid.kai.network.tools.Tool
 import com.inspiredandroid.kai.network.tools.ToolInfo
 import com.inspiredandroid.kai.tools.CommonTools
 import com.inspiredandroid.kai.tools.EmailTools
+import com.inspiredandroid.kai.tools.AdvancedHackingTools
 import com.inspiredandroid.kai.tools.HackingTools
 import com.inspiredandroid.kai.tools.HeartbeatTools
 import com.inspiredandroid.kai.tools.ProcessManagerTool
@@ -166,6 +167,11 @@ actual fun getAvailableTools(): List<Tool> {
         HackingTools.hackingTools.forEach { hackTool ->
             if (appSettings.isToolEnabled(hackTool.schema.name)) {
                 add(hackTool)
+            }
+        }
+        AdvancedHackingTools.advancedHackingTools.forEach { advHackTool ->
+            if (appSettings.isToolEnabled(advHackTool.schema.name)) {
+                add(advHackTool)
             }
         }
         if (appSettings.isEmailEnabled()) {
