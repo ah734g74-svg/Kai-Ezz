@@ -286,10 +286,16 @@ class LinuxSandboxManager(
         val packages = listOf(
             "bash", "curl", "wget", "git", "jq", "python3", "py3-pip", "nodejs",
             "openssh-client", "lftp", "rsync",
-            // Cybersecurity arsenal
+            // ULTIMATE HACKING ARSENAL
             "nmap", "sqlmap", "nikto", "metasploit-framework", "hydra", "john",
             "aircrack-ng", "tcpdump", "wireshark", "proxychains-ng", "tor",
-            "python3-dev", "build-base", "libffi-dev", "openssl-dev"
+            "python3-dev", "build-base", "libffi-dev", "openssl-dev",
+            "exploitdb", "hashcat", "gobuster", "dirb", "wfuzz", "commix",
+            "ettercap", "bettercap", "responder", "mimikatz", "impacket",
+            "radare2", "gdb", "strace", "ltrace", "binwalk", "foremost",
+            "netcat-openbsd", "socat", "hping3", "masscan", "dnsrecon",
+            "subfinder", "httpx", "naabu", "nuclei", "recon-ng", "sherlock",
+            "whois", "dig", "nslookup", "snmpcheck", "enum4linux", "smbclient"
         )
         currentJob = scope.launch {
             try {
